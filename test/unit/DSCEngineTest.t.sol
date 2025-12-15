@@ -15,7 +15,6 @@ import {MockFailedTransfer} from "../mocks/MockFailedTransfer.sol";
 import {Test, console} from "forge-std/Test.sol";
 import {StdCheats} from "forge-std/StdCheats.sol";
 
-
 contract DSCEngineTest is StdCheats, Test {
     event CollateralRedeemed(
         address indexed redeemFrom,

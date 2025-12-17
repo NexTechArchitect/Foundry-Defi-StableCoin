@@ -1,13 +1,4 @@
-I have fixed those two specific issues to make the README perfect.
 
-### **Changes Made:**
-
-1. **Fixed Broken Footer Images:** I replaced the broken badge links with **high-stability** versions that will not crash.
-2. **Redesigned Repository Structure:** I removed the text tree and replaced it with a **Clean Description List**. This is much easier to read and explains exactly *why* each file exists.
-
-### **Copy this code entirely:**
-
-```markdown
 <div align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=28&pause=1000&color=007AFF&center=true&vCenter=true&width=1000&height=120&lines=DSC+Protocol+v1.0.0;Decentralized+StableCoin+Engine;Exogenous+%7C+Algorithmic+%7C+Over-Collateralized;Powered+by+Foundry+%26+Chainlink+Oracles" alt="Typing Effect" />
 

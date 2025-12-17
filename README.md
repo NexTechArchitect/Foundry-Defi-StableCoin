@@ -22,12 +22,14 @@
 
   <br/>
 
+  <h3>📚 Topic Navigation</h3>
   <p>
-    <a href="#-system-architecture"><strong>🏗 Architecture</strong></a> •
-    <a href="#-mathematical-proofs"><strong>🧮 Math Model</strong></a> •
-    <a href="#-contract-interfaces"><strong>⚙️ Interface</strong></a> •
-    <a href="#-invariant-properties"><strong>🛡 Security</strong></a> •
-    <a href="#-risk-analysis"><strong>⚠️ Risk Analysis</strong></a>
+    <a href="#-executive-summary"><strong>📖 Summary</strong></a> &nbsp;|&nbsp;
+    <a href="#-system-architecture"><strong>🏗 Architecture</strong></a> &nbsp;|&nbsp;
+    <a href="#-mathematical-proofs"><strong>🧮 Math Model</strong></a> &nbsp;|&nbsp;
+    <a href="#-contract-interfaces"><strong>⚙️ Interface</strong></a> &nbsp;|&nbsp;
+    <a href="#-invariant-properties-security"><strong>🛡 Security</strong></a> &nbsp;|&nbsp;
+    <a href="#-risk-analysis--mitigation"><strong>⚠️ Risks</strong></a>
   </p>
 
 </div>
@@ -202,17 +204,20 @@ This protocol was tested using **Foundry's Stateful Fuzzing**. The following inv
 
 
 <a href="https://github.com/NexTechArchitect">
-<img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/GitHub-181717%3Fstyle%3Dfor-the-badge%26logo%3Dgithub%26logoColor%3Dwhite" />
 </a>
 &nbsp;&nbsp;
 <a href="https://linkedin.com/in/amit-kumar-811a11277">
-<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-0077B5%3Fstyle%3Dfor-the-badge%26logo%3Dlinkedin%26logoColor%3Dwhite" />
 </a>
 &nbsp;&nbsp;
 <a href="https://x.com/itZ_AmiT0">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/X-000000%3Fstyle%3Dflat-square%26logo%3Dx%26logoColor%3Dwhite" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/X-000000%3Fstyle%3Dfor-the-badge%26logo%3Dx%26logoColor%3Dwhite" />
 </a>
 
 </div>
 
+```
+
+```
 

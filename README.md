@@ -213,8 +213,4 @@ This protocol was tested using **Foundry's Stateful Fuzzing**. The following inv
 <a href="https://www.google.com/search?q=https://twitter.com/itZ_AmiT0">
 <img src="https://www.google.com/search?q=https://img.shields.io/badge/X-Follow-000000%3Fstyle%3Dflat%26logo%3Dx%26logoColor%3Dwhite" />
 </a>
-</div>
 
-```
-
-```

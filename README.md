@@ -204,15 +204,19 @@ This protocol was tested using **Foundry's Stateful Fuzzing**. The following inv
 
 
 <a href="https://github.com/NexTechArchitect">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/GitHub-181717%3Fstyle%3Dfor-the-badge%26logo%3Dgithub%26logoColor%3Dwhite" />
+<img src="https://skillicons.dev/icons?i=github" height="40" />
 </a>
 &nbsp;&nbsp;
 <a href="https://linkedin.com/in/amit-kumar-811a11277">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-0077B5%3Fstyle%3Dfor-the-badge%26logo%3Dlinkedin%26logoColor%3Dwhite" />
+<img src="https://skillicons.dev/icons?i=linkedin" height="40" />
 </a>
 &nbsp;&nbsp;
 <a href="https://x.com/itZ_AmiT0">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/X-000000%3Fstyle%3Dfor-the-badge%26logo%3Dx%26logoColor%3Dwhite" />
+<img src="https://skillicons.dev/icons?i=twitter" height="40" />
 </a>
 
+</div>
 
+```
+
+```

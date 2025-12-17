@@ -8,7 +8,6 @@
     <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
     <img src="https://img.shields.io/badge/Language-Solidity_0.8.19-363636?style=for-the-badge&logo=solidity&logoColor=white" />
     <img src="https://img.shields.io/badge/Security-Invariant_Fuzzing-FF4500?style=for-the-badge&logo=shield&logoColor=white" />
-    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
   </p>
 
   <h3>🏛 The Decentralized StableCoin (DSC) Protocol</h3>

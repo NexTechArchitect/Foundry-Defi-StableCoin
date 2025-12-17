@@ -1,10 +1,4 @@
-Here is the **final, perfected version**.
 
-I have restored the **Tree Structure** (ASCII style) you liked but removed the `#` symbols to keep it clean. I also completely fixed the footer by switching to **Markdown-style badges**, which are much more stable and won't show the "broken image" error.
-
-### **Copy this code entirely:**
-
-```markdown
 <div align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=28&pause=1000&color=007AFF&center=true&vCenter=true&width=1000&height=120&lines=DSC+Protocol+v1.0.0;Decentralized+StableCoin+Engine;Exogenous+%7C+Algorithmic+%7C+Over-Collateralized;Powered+by+Foundry+%26+Chainlink+Oracles" alt="Typing Effect" />
 

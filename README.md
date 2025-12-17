@@ -6,11 +6,8 @@
 
   <p>
     <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
-      <img src="https://img.shields.io/badge/Architecture-Clean_Architecture-2ea44f?style=for-the-badge&logo=github&logoColor=white" />
-    </a>
     <img src="https://img.shields.io/badge/Language-Solidity_0.8.19-363636?style=for-the-badge&logo=solidity&logoColor=white" />
     <img src="https://img.shields.io/badge/Security-Invariant_Fuzzing-FF4500?style=for-the-badge&logo=shield&logoColor=white" />
-    <img src="https://img.shields.io/badge/Oracle-Chainlink_Data_Feeds-375BD2?style=for-the-badge&logo=chainlink&logoColor=white" />
     <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
   </p>
 

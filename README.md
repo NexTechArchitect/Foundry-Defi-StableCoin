@@ -215,9 +215,4 @@ This protocol was tested using **Foundry's Stateful Fuzzing**. The following inv
 <img src="https://www.google.com/search?q=https://img.shields.io/badge/X-000000%3Fstyle%3Dfor-the-badge%26logo%3Dx%26logoColor%3Dwhite" />
 </a>
 
-</div>
-
-```
-
-```
 

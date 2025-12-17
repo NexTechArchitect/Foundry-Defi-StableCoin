@@ -6,12 +6,13 @@
 
   <p>
     <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
-      <img src="https://img.shields.io/badge/Architecture-Clean_Architecture-2ea44f?style=for-the-badge&logo=github&logoColor=white" />
+      <img src="https://img.shields.io/badge/Architecture-Clean_Architecture-2ea44f?style=for-the-badge&logo=github" />
     </a>
     <img src="https://img.shields.io/badge/Language-Solidity_0.8.19-363636?style=for-the-badge&logo=solidity&logoColor=white" />
     <img src="https://img.shields.io/badge/Security-Invariant_Fuzzing-FF4500?style=for-the-badge&logo=shield&logoColor=white" />
     <img src="https://img.shields.io/badge/Oracle-Chainlink_Data_Feeds-375BD2?style=for-the-badge&logo=chainlink&logoColor=white" />
     <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Coverage-100%25-success?style=for-the-badge" />
   </p>
 
   <h3>🏛 The Decentralized StableCoin (DSC) Protocol</h3>
@@ -71,39 +72,23 @@ graph TD
 
 ### 📂 Repository Structure
 
-We utilize a modular "Monorepo" structure. Here is the breakdown of the core components:
+A modular "Monorepo" style structure optimized for Foundry.
 
-#### **`src/` (The Core Protocol)**
+```txt
+Foundry-Defi-StableCoin/
+├── 📂 src/
+│   ├── ⚙️ DSCEngine.sol                # [CORE] The Logic Layer (Banking System)
+│   ├── 🪙 DecentralizedStableCoin.sol  # [STATE] The ERC20 Implementation
+│   └── 📚 libraries/                   # [LIBS]  OracleLib & Error Handling
+├── 📂 script/
+│   ├── 🚀 DeployDSC.s.sol              # [OPS]   Deployment Orchestration
+│   └── 🔧 HelperConfig.s.sol           # [CONF]  Multi-chain Configuration
+└── 📂 test/
+    ├── 🧪 unit/                        # [TEST]  Function Isolation
+    ├── 💥 fuzz/                        # [TEST]  Stateless Randomness
+    └── 🔍 invariants/                  # [TEST]  Stateful System Properties
 
-* ⚙️ **`DSCEngine.sol`**
-* The "Brain" of the system. Handles all depositing, minting, redeeming, and liquidation logic.
-
-
-* 🪙 **`DecentralizedStableCoin.sol`**
-* The ERC-20 implementation of the Stablecoin. It is owned entirely by the Engine.
-
-
-* 📚 **`libraries/OracleLib.sol`**
-* Safety wrapper for Chainlink feeds to prevent using stale or invalid data.
-
-
-
-#### **`script/` (DevOps)**
-
-* 🚀 **`DeployDSC.s.sol`**
-* Professional deployment script that handles ownership transfer and mock setup automatically.
-
-
-* 🔧 **`HelperConfig.s.sol`**
-* Configuration file that automatically detects the active chain (Sepolia vs. Anvil) and switches addresses.
-
-
-
-#### **`test/` (Security Engineering)**
-
-* 🧪 **`unit/`**: Tests individual functions in isolation.
-* 💥 **`fuzz/`**: Stateless fuzzing to throw random data at the contract.
-* 🔍 **`invariants/`**: **The Gold Standard.** Stateful fuzz tests that ensure the protocol remains solvent forever (Collateral > Supply).
+```
 
 ---
 
@@ -212,9 +197,30 @@ This protocol was tested using **Foundry's Stateful Fuzzing**. The following inv
 
 
 
+<a href="https://github.com/NexTechArchitect">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/GitHub-Profile-181717%3Fstyle%3Dflat%26logo%3Dgithub%26logoColor%3Dwhite" />
+</a>
+<a href="https://linkedin.com/in/amit-kumar-811a11277">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-Connect-0077B5%3Fstyle%3Dflat%26logo%3Dlinkedin%26logoColor%3Dwhite" />
+</a>
+<a href="https://www.google.com/search?q=https://twitter.com/itZ_AmiT0">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/X-Follow-000000%3Fstyle%3Dflat%26logo%3Dx%26logoColor%3Dwhite" />
+</a>
+</div>
 
-<h3>Engineered by NexTechArchitect</h3>
-<p><i>Protocol Design • DeFi Architecture • Security Engineering</i></p>
+```
+
+```
+## ⚠️ Risk Analysis & Mitigation
+
+| **Risk Vector** | **Mitigation Strategy** |
+| --- | --- |
+| **Oracle Failure** | Protocol freezes if Chainlink heartbeat is missed or price deviates >50% instantly. |
+| **De-pegging** | Arbitrage opportunity created via `redeem` function ensures market price returns to $1. |
+| **Network Congestion** | Liquidation threshold set conservatively (200%) to allow time for tx inclusion. |
+| **Smart Contract Bug** | Contract is immutable and non-upgradeable to prevent governance attacks. |
+
+
 
 
 

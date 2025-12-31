@@ -53,87 +53,46 @@ The **DSC Protocol** maintains a strict `$1.00` peg for the **DSC Token** throug
 
 ## 🏗 System Architecture
 
-The protocol enforces a strict **Separation of Concerns (SoC)**. The monetary policy logic is decoupled from the token standard implementation, ensuring upgradeability and cleaner testing surfaces.
+The DSC Protocol is architected as a **Multi-Layered Fortress**. 
 
-### 📐 Data Flow Architecture
+* **Top Layer:** The Users (Humans/Bots) who interact with the system.
+* **Middle Layer:** The Logic (Smart Contracts) that enforces the rules.
+* **Bottom Layer:** The Foundation (Assets & Data) that powers the value.
+
+### 📐 The "Layered Stack" View
 
 ```mermaid
 graph TD
-    User((User))
-    Liquidator((Liquidator))
-    Oracle{Chainlink Oracle}
-    
-    subgraph "Core Protocol Layer"
-        Engine[DSCEngine.sol<br/>(The Central Bank)]
-        Token[DecentralizedStableCoin.sol<br/>(The Currency)]
+    %% Styling
+    classDef actor fill:#000,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef logic fill:#1a1a1a,stroke:#00E5FF,stroke-width:2px,color:#fff;
+    classDef infra fill:#1a1a1a,stroke:#be5212,stroke-width:1px,stroke-dasharray: 5 5,color:#ccc;
+
+    %% LAYER 1: ACTORS
+    subgraph "👤 Layer 1: Actors"
+        User((User)):::actor
+        Liquidator((Liquidator)):::actor
     end
 
-    subgraph "External Systems"
-        WETH[WETH Contract]
-        WBTC[WBTC Contract]
+    %% LAYER 2: PROTOCOL LOGIC
+    subgraph "⚙️ Layer 2: Protocol Logic"
+        Engine[DSCEngine.sol]:::logic
+        Token[DSC Token]:::logic
     end
 
-    User -->|1. Deposit Collateral| Engine
-    Engine -->|2. Lock Assets| WETH
-    Engine -.->|3. Verify Value ($)| Oracle
-    Engine -->|4. Mint DSC| Token
-    Token -->|5. Transfer DSC| User
+    %% LAYER 3: INFRASTRUCTURE
+    subgraph "⛓️ Layer 3: Infrastructure"
+        Oracle[Chainlink Price Feed]:::infra
+        Collateral[WETH / WBTC]:::infra
+    end
+
+    %% CONNECTIONS (Top Down Flow)
+    User ==>|Deposit & Mint| Engine
+    Liquidator -.->|Monitor Solvency| Engine
     
-    Liquidator -.->|6. Monitor Health Factor| Engine
-    Liquidator -->|7. Liquidate Bad Debt| Engine
-
-```
-
-### 🧩 Component Deep Dive
-
-| Contract | Responsibility |
-| --- | --- |
-| **`DSCEngine.sol`** | The "Brain" of the system. Handles depositing collateral, minting DSC, redeeming collateral, and liquidation logic. It holds all user funds. |
-| **`DecentralizedStableCoin.sol`** | The "Currency". An ERC20 Burnable/Mintable token. It has NO logic other than standard ERC20 functions and access control (only Engine can mint/burn). |
-| **`OracleLib.sol`** | A safety wrapper around Chainlink Aggregators. Checks for stale prices and heartbeat timeouts to prevent bad data usage. |
-
----
-
-## ⚙️ Core Mechanics
-
-### 1. Minting & Borrowing
-
-Users deposit specific allowed collateral (WETH/WBTC) and mint DSC against it.
-
-* **Threshold:** 200% Collateralization Ratio.
-* **Example:** To mint $100 DSC, you must deposit at least $200 worth of ETH.
-
-### 2. The Liquidation Engine
-
-If the value of your collateral drops (ETH price crash), your **Health Factor** may fall below 1.
-
-* **Trigger:** Health Factor < 1.0.
-* **Incentive:** Liquidators pay off your debt (burn DSC) and seize your collateral.
-* **Bonus:** Liquidators receive a **10% Bonus** on the collateral they seize, ensuring they are profitable even in volatile markets.
-
-### 🩸 Liquidation Sequence Diagram
-
-```mermaid
-sequenceDiagram
-    participant User (Insolvent)
-    participant Liquidator
-    participant DSCEngine
-    participant WETH
-    participant Oracle
-
-    Note over User (Insolvent): Health Factor < 1.0
-    
-    Liquidator->>DSCEngine: liquidate(user, debtToCover)
-    DSCEngine->>Oracle: Check Prices & Health Factor
-    DSCEngine->>DSCEngine: Burn DSC from Liquidator
-    DSCEngine->>DSCEngine: Calculate Collateral + 10% Bonus
-    DSCEngine->>WETH: Transfer Collateral to Liquidator
-    
-    Note over User (Insolvent): Debt Reduced, Health Factor > 1.0
-
-```
-
----
+    Engine ==>|Mint/Burn| Token
+    Engine -.->|Check Price ($)| Oracle
+    Engine ==>|Lock/Release| Collateral
 
 ## 🧮 Mathematical Model
 

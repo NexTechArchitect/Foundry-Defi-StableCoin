@@ -1,21 +1,4 @@
-This is an **Ultra-Premium, Dark-Mode Optimized** redesign of your DSC Protocol README.
 
-It uses a **"Cyber-Security / Institutional DeFi"** aesthetic, featuring:
-
-1. **Glassmorphism Headers** (using distinct borders and spacing).
-2. **LaTeX Math Rendering** for the formulas.
-3. **Interactive-style Navigation**.
-4. **High-Contrast "For-the-Badge" Shields**.
-5. A completely restructured **Architecture Diagram** using Mermaid.
-
-### **Instructions:**
-
-1. Copy the code block below entirely.
-2. Paste it into your repository's `README.md`.
-
----
-
-```markdown
 <div align="center">
 
   <img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&weight=700&size=30&pause=1000&color=00E5FF&center=true&vCenter=true&width=1000&height=100&lines=DSC+Protocol+v1.0;Decentralized+StableCoin+Engine;Algorithmic+%7C+Over-Collateralized;Secured+by+Foundry+%26+Chainlink" alt="Typing Effect" />

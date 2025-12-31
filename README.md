@@ -53,46 +53,61 @@ The **DSC Protocol** maintains a strict `$1.00` peg for the **DSC Token** throug
 
 ## 🏗 System Architecture
 
-The DSC Protocol is architected as a **Multi-Layered Fortress**. 
+This diagram illustrates the **Flow of Value** through the system. We use a **Hub-and-Spoke** model where the `DSCEngine` is the central "Trustless Banker".
 
-* **Top Layer:** The Users (Humans/Bots) who interact with the system.
-* **Middle Layer:** The Logic (Smart Contracts) that enforces the rules.
-* **Bottom Layer:** The Foundation (Assets & Data) that powers the value.
-
-### 📐 The "Layered Stack" View
+### 📐 High-Level Interaction Diagram
 
 ```mermaid
 graph TD
-    %% Styling
-    classDef actor fill:#000,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef logic fill:#1a1a1a,stroke:#00E5FF,stroke-width:2px,color:#fff;
-    classDef infra fill:#1a1a1a,stroke:#be5212,stroke-width:1px,stroke-dasharray: 5 5,color:#ccc;
+    %% Nodes
+    User((👤 User))
+    Liquidator((🩸 Liquidator))
+    Engine[⚙️ DSC Engine Contract]
+    Oracle{👁️ Chainlink Price Feed}
+    Collateral[🏦 WETH / WBTC Vault]
+    Token[💵 DSC Token]
 
-    %% LAYER 1: ACTORS
-    subgraph "👤 Layer 1: Actors"
-        User((User)):::actor
-        Liquidator((Liquidator)):::actor
-    end
+    %% User Flow
+    User ==>|1. Deposit Collateral| Engine
+    Engine ==>|2. Lock Funds| Collateral
+    Engine -.->|3. Check USD Price| Oracle
+    Engine ==>|4. Mint DSC| Token
+    Token ==>|5. Transfer DSC| User
 
-    %% LAYER 2: PROTOCOL LOGIC
-    subgraph "⚙️ Layer 2: Protocol Logic"
-        Engine[DSCEngine.sol]:::logic
-        Token[DSC Token]:::logic
-    end
+    %% Liquidator Flow
+    Liquidator -.->|6. Monitor Health Factor| Engine
+    Liquidator ==>|7. Liquidate Insolvent User| Engine
 
-    %% LAYER 3: INFRASTRUCTURE
-    subgraph "⛓️ Layer 3: Infrastructure"
-        Oracle[Chainlink Price Feed]:::infra
-        Collateral[WETH / WBTC]:::infra
-    end
+```
 
-    %% CONNECTIONS (Top Down Flow)
-    User ==>|Deposit & Mint| Engine
-    Liquidator -.->|Monitor Solvency| Engine
-    
-    Engine ==>|Mint/Burn| Token
-    Engine -.->|Check Price ($)| Oracle
-    Engine ==>|Lock/Release| Collateral
+### 🧩 Component Breakdown
+
+| Contract | Responsibility |
+| --- | --- |
+| **`DSCEngine.sol`** | The "Brain" of the system. Handles depositing collateral, minting DSC, redeeming collateral, and liquidation logic. It holds all user funds. |
+| **`DecentralizedStableCoin.sol`** | The "Currency". An ERC20 Burnable/Mintable token. It has NO logic other than standard ERC20 functions and access control (only Engine can mint/burn). |
+| **`OracleLib.sol`** | A safety wrapper around Chainlink Aggregators. Checks for stale prices and heartbeat timeouts to prevent bad data usage. |
+
+---
+
+## ⚙️ Core Mechanics
+
+### 1. Minting & Borrowing
+
+Users deposit specific allowed collateral (WETH/WBTC) and mint DSC against it.
+
+* **Threshold:** 200% Collateralization Ratio.
+* **Example:** To mint $100 DSC, you must deposit at least $200 worth of ETH.
+
+### 2. The Liquidation Engine
+
+If the value of your collateral drops (ETH price crash), your **Health Factor** may fall below 1.
+
+* **Trigger:** Health Factor < 1.0.
+* **Incentive:** Liquidators pay off your debt (burn DSC) and seize your collateral.
+* **Bonus:** Liquidators receive a **10% Bonus** on the collateral they seize, ensuring they are profitable even in volatile markets.
+
+---
 
 ## 🧮 Mathematical Model
 

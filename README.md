@@ -6,10 +6,8 @@
   <br />
 
   <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
-    <img src="https://img.shields.io/badge/Solidity-0.8.19-363636?style=for-the-badge&logo=solidity&logoColor=white" />
+    <img src="https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white" />
     <img src="https://img.shields.io/badge/Architecture-Clean_Architecture-be5212?style=for-the-badge&logo=architecture&logoColor=white" />
-    <img src="https://img.shields.io/badge/Security-Invariant_Fuzzing-FF4500?style=for-the-badge&logo=shield&logoColor=white" />
-    <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge" />
   </a>
 
   <br /><br />
@@ -29,10 +27,10 @@
     <tr>
       <td align="center" width="16%"><a href="#-executive-summary"><b>📖 Summary</b></a></td>
       <td align="center" width="16%"><a href="#-system-architecture"><b>🏗 Architecture</b></a></td>
-      <td align="center" width="16%"><a href="#-mathematical-model"><b>🧮 Math Model</b></a></td>
-      <td align="center" width="16%"><a href="#-contract-interfaces"><b>⚙️ Interface</b></a></td>
+      <td align="center" width="16%"><a href="#-core-mechanics"><b>⚙️ Mechanics</b></a></td>
+      <td align="center" width="16%"><a href="#-mathematical-model"><b>🧮 Math</b></a></td>
       <td align="center" width="16%"><a href="#-invariant-security"><b>🛡 Security</b></a></td>
-      <td align="center" width="16%"><a href="#-risk-mitigation"><b>⚠️ Risks</b></a></td>
+      <td align="center" width="16%"><a href="#-testing-strategy"><b>🧪 Testing</b></a></td>
     </tr>
   </table>
 </div>
@@ -45,6 +43,11 @@ The **DSC Protocol** maintains a strict `$1.00` peg for the **DSC Token** throug
 
 > **Core Mechanism:** **Over-Collateralization**
 > Users must deposit crypto-assets (`wETH` / `wBTC`) valued significantly higher than the stablecoins they mint. System solvency is enforced by a network of liquidators who profit from purging under-collateralized positions.
+
+### Key Features
+* **Exogenous Collateral:** Backed by established assets (`wETH`, `wBTC`), not protocol-native tokens.
+* **Dollar Pegged:** 1 DSC is algorithmically stabilized to roughly $1.00 USD.
+* **Algorithmically Sound:** No governance keys, no freezing functionality, pure math-based incentives.
 
 ---
 
@@ -81,21 +84,52 @@ graph TD
 
 ```
 
-### 📂 Repository Structure
+### 🧩 Component Deep Dive
 
-```text
-Foundry-Defi-StableCoin/
-├── src/
-│   ├── DSCEngine.sol               // Core Logic: Collateral, Minting, Redeeming
-│   ├── DecentralizedStableCoin.sol // ERC20 Burnable/Mintable Implementation
-│   └── libraries/                  // OracleLib (Stale Price Checks)
-├── script/
-│   ├── DeployDSC.s.sol             // Deployment Orchestration
-│   └── HelperConfig.s.sol          // Multi-chain Configuration (Sepolia/Mainnet)
-└── test/
-    ├── unit/                       // Function Isolation Tests
-    ├── fuzz/                       // Stateless Randomness
-    └── invariants/                 // Stateful System Properties (The Gold Standard)
+| Contract | Responsibility |
+| --- | --- |
+| **`DSCEngine.sol`** | The "Brain" of the system. Handles depositing collateral, minting DSC, redeeming collateral, and liquidation logic. It holds all user funds. |
+| **`DecentralizedStableCoin.sol`** | The "Currency". An ERC20 Burnable/Mintable token. It has NO logic other than standard ERC20 functions and access control (only Engine can mint/burn). |
+| **`OracleLib.sol`** | A safety wrapper around Chainlink Aggregators. Checks for stale prices and heartbeat timeouts to prevent bad data usage. |
+
+---
+
+## ⚙️ Core Mechanics
+
+### 1. Minting & Borrowing
+
+Users deposit specific allowed collateral (WETH/WBTC) and mint DSC against it.
+
+* **Threshold:** 200% Collateralization Ratio.
+* **Example:** To mint $100 DSC, you must deposit at least $200 worth of ETH.
+
+### 2. The Liquidation Engine
+
+If the value of your collateral drops (ETH price crash), your **Health Factor** may fall below 1.
+
+* **Trigger:** Health Factor < 1.0.
+* **Incentive:** Liquidators pay off your debt (burn DSC) and seize your collateral.
+* **Bonus:** Liquidators receive a **10% Bonus** on the collateral they seize, ensuring they are profitable even in volatile markets.
+
+### 🩸 Liquidation Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant User (Insolvent)
+    participant Liquidator
+    participant DSCEngine
+    participant WETH
+    participant Oracle
+
+    Note over User (Insolvent): Health Factor < 1.0
+    
+    Liquidator->>DSCEngine: liquidate(user, debtToCover)
+    DSCEngine->>Oracle: Check Prices & Health Factor
+    DSCEngine->>DSCEngine: Burn DSC from Liquidator
+    DSCEngine->>DSCEngine: Calculate Collateral + 10% Bonus
+    DSCEngine->>WETH: Transfer Collateral to Liquidator
+    
+    Note over User (Insolvent): Debt Reduced, Health Factor > 1.0
 
 ```
 
@@ -103,7 +137,7 @@ Foundry-Defi-StableCoin/
 
 ## 🧮 Mathematical Model
 
-The protocol's stability is guaranteed by the following invariant equations.
+The protocol's stability is guaranteed by strict mathematical invariants enforced at the smart contract level.
 
 ### 1. Health Factor ()
 
@@ -118,74 +152,64 @@ To incentivize liquidators to pay off bad debt during market crashes, they recei
 
 ---
 
-## ⚙️ Contract Interfaces
-
-The `DSCEngine` acts as the primary entry point. Below are the critical function signatures.
-
-### 📥 Deposit & Minting
-
-```solidity
-/**
- * @notice Follows CEI (Checks-Effects-Interactions) Pattern
- * @param tokenCollateralAddress The address of the token to deposit
- * @param amountCollateral The amount of collateral to deposit
- * @param amountDscToMint The amount of stablecoin to generate
- */
-function depositCollateralAndMintDsc(
-    address tokenCollateralAddress,
-    uint256 amountCollateral,
-    uint256 amountDscToMint
-) external;
-
-```
-
-### 🩸 Liquidation Engine
-
-```solidity
-/**
- * @notice Liquidates a user who has dropped below the health factor.
- * @notice You receive a 10% bonus for taking this risk.
- * @param collateral The ERC20 collateral address to seize
- * @param user The insolvent user address
- * @param debtToCover The amount of DSC to burn to fix the position
- */
-function liquidate(
-    address collateral,
-    address user,
-    uint256 debtToCover
-) external moreThanZero(debtToCover) nonReentrant;
-
-```
-
----
-
 ## 🛡 Invariant Security
 
-This protocol has undergone rigorous **Stateful Fuzzing** using Foundry. The following properties are mathematically proven to hold across 10,000+ random transaction sequences.
+This protocol has undergone rigorous **Stateful Fuzzing** using Foundry. The following properties are mathematically proven to hold across **10,000+ random transaction sequences**.
 
 | ID | Invariant Property | Status |
 | --- | --- | --- |
-| **INV_01** | **Protocol Solvency:** `Total Collateral Value ($)` > `Total DSC Supply` | ✅ **PASS** |
-| **INV_02** | **Getter Safety:** View functions (`getHealthFactor`) never revert/panic. | ✅ **PASS** |
-| **INV_03** | **Ledger Integrity:** `wETH` in contract == Sum of all User Balances. | ✅ **PASS** |
-| **INV_04** | **Oracle Reliability:** Stale/Broken price feeds cause safe revert. | ✅ **PASS** |
+| **INV_01** | **Protocol Solvency:** `Total Collateral Value ($)` > `Total DSC Supply`. The system is *always* over-collateralized. | ✅ **PASS** |
+| **INV_02** | **Getter Safety:** View functions (`getHealthFactor`, `getAccountCollateralValue`) never revert/panic. | ✅ **PASS** |
+| **INV_03** | **Ledger Integrity:** `wETH` balance in contract == Sum of all User Balances mapped in storage. | ✅ **PASS** |
+| **INV_04** | **Oracle Reliability:** Stale/Broken price feeds cause safe revert (DoS) rather than bad pricing. | ✅ **PASS** |
 
 ### 🔍 Verification Scope
 
 * **Static Analysis:** Slither, Aderyn.
 * **Dynamic Analysis:** Fuzzing (Foundry), Differential Testing.
-* **Manual Review:** Access Control, Reentrancy, Oracle Manipulation.
+* **Manual Review:** Access Control (CEI Pattern), Reentrancy, Oracle Manipulation.
 
 ---
 
-## ⚠️ Risk Mitigation
+## ⚠️ Risk Analysis & Mitigation
 
-| Risk Vector | Mitigation Strategy |
-| --- | --- |
-| **Oracle Failure** | Protocol strictly reverts if Chainlink heartbeat is missed or price deviates >50% instantly. |
-| **De-pegging** | Arbitrage opportunity created via `redeem` function forces market price back to $1.00. |
-| **Network Congestion** | Liquidation threshold set conservatively (200%) to allow ample time for tx inclusion. |
-| **Governance Attack** | Contract is **Immutable** and **Non-Upgradeable**. No admin key can rug pull funds. |
+| Risk Vector | Likelihood | Impact | Mitigation Strategy |
+| --- | --- | --- | --- |
+| **Oracle Failure** | Low | Critical | Protocol strictly reverts if Chainlink heartbeat is missed or price deviates >50% instantly. |
+| **De-pegging** | Medium | High | Arbitrage opportunity created via `redeem` function forces market price back to $1.00. |
+| **Network Congestion** | High | Medium | Liquidation threshold set conservatively (200%) to allow ample time for tx inclusion before bad debt accrues. |
+| **Smart Contract Bug** | Low | Critical | Logic is kept minimal. CEI pattern used everywhere. `ReentrancyGuard` applied to all state-changing functions. |
+
+---
+
+## 🧪 Testing Strategy
+
+We employ a 3-layered testing approach to ensure production readiness.
+
+### 1. Unit Tests
+
+* **Scope:** Individual functions (`deposit`, `mint`, `burn`).
+* **Coverage:** 100% Line Coverage.
+* **Goal:** Verify basic logic and happy paths.
+
+### 2. Fuzz Tests (Stateless)
+
+* **Scope:** Random inputs to all public functions.
+* **Goal:** Crash detection and edge-case handling (e.g., passing `0` amounts or massive `uint256` values).
+
+### 3. Invariant Tests (Stateful)
+
+* **Scope:** Random sequences of function calls (e.g., `deposit` -> `mint` -> `priceCrash` -> `liquidate`).
+* **Goal:** Ensure the protocol *never* goes insolvent, regardless of user actions.
+
+```bash
+# Run the full test suite
+forge test
+
+# Run invariant checks
+forge test --match-test invariant
+
+```
 
 ---
 
@@ -212,4 +236,4 @@ This protocol has undergone rigorous **Stateful Fuzzing** using Foundry. The fol
 
 ```
 
-````
+```

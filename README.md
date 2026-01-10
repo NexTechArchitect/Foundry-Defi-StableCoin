@@ -1,21 +1,34 @@
-
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:4b0082,100:9d4edd&height=180&section=header&text=ERC-4337+Account+Abstraction&fontSize=35&fontColor=fff&animation=twinkling&fontAlignY=32" width="100%"/>
+  <br />
+  <br />
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=9d4edd&center=true&vCenter=true&width=1000&lines=Production-Grade+AA+Implementation;Custom+EntryPoint+%26+Paymasters;Gasless+Tx+%7C+Session+Keys+%7C+Bundler" alt="Typing SVG" />
+  <img src="https://img.icons8.com/ios-filled/100/9d4edd/blockchain-technology.png" alt="logo" />
 
-<p align="center">
-  <a href="https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry">
-    <img src="https://img.shields.io/badge/Solidity-0.8.20-b298dc?style=flat-square&logo=solidity&logoColor=white&labelColor=0d1117" />
-  </a>
-  <a href="https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry">
-    <img src="https://img.shields.io/badge/Framework-Foundry-b298dc?style=flat-square&logo=rust&logoColor=white&labelColor=0d1117" />
-  </a>
-  <a href="https://eips.ethereum.org/EIPS/eip-4337">
-    <img src="https://img.shields.io/badge/Standard-ERC4337-b298dc?style=flat-square&logo=ethereum&logoColor=white&labelColor=0d1117" />
-  </a>
-</p>
+  <h1 style="font-size: 3rem; margin-bottom: 0;">ERC-4337 Account Abstraction</h1>
+
+  <p style="font-size: 1.1rem; color: #b298dc; max-width: 600px;">
+    <strong>A low-level, protocol-accurate implementation built with Foundry.</strong><br/>
+    Exploring the internals of UserOps, Bundlers, and Gas Abstraction.
+  </p>
+
+  <p>
+    <a href="https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry">
+      <img src="https://img.shields.io/badge/Solidity-0.8.20-2e2e2e?style=for-the-badge&logo=solidity&logoColor=white" />
+    </a>
+    &nbsp;
+    <a href="https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry">
+      <img src="https://img.shields.io/badge/Framework-Foundry-9d4edd?style=for-the-badge&logo=rust&logoColor=white" />
+    </a>
+    &nbsp;
+    <a href="https://eips.ethereum.org/EIPS/eip-4337">
+      <img src="https://img.shields.io/badge/Standard-ERC--4337-2e2e2e?style=for-the-badge&logo=ethereum&logoColor=white" />
+    </a>
+  </p>
+
+  <br />
+
+</div>
 
 <h3>🛡️ The Next Generation of Ethereum Accounts</h3>
 <p width="80%">

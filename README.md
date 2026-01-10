@@ -1,211 +1,226 @@
 
 <div align="center">
 
-  <img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&weight=700&size=30&pause=1000&color=00E5FF&center=true&vCenter=true&width=1000&height=100&lines=DSC+Protocol+v1.0;Decentralized+StableCoin+Engine;Algorithmic+%7C+Over-Collateralized;Secured+by+Foundry+%26+Chainlink" alt="Typing Effect" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:4b0082,100:9d4edd&height=180&section=header&text=ERC-4337+Account+Abstraction&fontSize=35&fontColor=fff&animation=twinkling&fontAlignY=32" width="100%"/>
 
-  <br />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=9d4edd&center=true&vCenter=true&width=1000&lines=Production-Grade+AA+Implementation;Custom+EntryPoint+%26+Paymasters;Gasless+Tx+%7C+Session+Keys+%7C+Bundler" alt="Typing SVG" />
 
-  <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
-    <img src="https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white" />
-    <img src="https://img.shields.io/badge/Architecture-Clean_Architecture-be5212?style=for-the-badge&logo=architecture&logoColor=white" />
+<p align="center">
+  <a href="https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry">
+    <img src="https://img.shields.io/badge/Solidity-0.8.20-b298dc?style=flat-square&logo=solidity&logoColor=white&labelColor=0d1117" />
   </a>
+  <a href="https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry">
+    <img src="https://img.shields.io/badge/Framework-Foundry-b298dc?style=flat-square&logo=rust&logoColor=white&labelColor=0d1117" />
+  </a>
+  <a href="https://eips.ethereum.org/EIPS/eip-4337">
+    <img src="https://img.shields.io/badge/Standard-ERC4337-b298dc?style=flat-square&logo=ethereum&logoColor=white&labelColor=0d1117" />
+  </a>
+</p>
 
-  <br /><br />
-
-  <h3>🏛 The Decentralized StableCoin (DSC) Protocol</h3>
-  <p width="80%">
-    <b>An exogenous, autonomously governed, non-custodial stablecoin system.</b><br/>
-    Anchored to the USD via real-time Chainlink Oracles and secured by a dynamic liquidation engine.
-  </p>
+<h3>🛡️ The Next Generation of Ethereum Accounts</h3>
+<p width="80%">
+  <b>A low-level, protocol-accurate implementation of Account Abstraction.</b><br/>
+  Built to expose the internal mechanics of UserOperations, Bundlers, and Paymaster gas sponsorship.
+</p>
 
 </div>
-
-<br />
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center" width="16%"><a href="#-executive-summary"><b>📖 Summary</b></a></td>
-      <td align="center" width="16%"><a href="#-system-architecture"><b>🏗 Architecture</b></a></td>
-      <td align="center" width="16%"><a href="#-core-mechanics"><b>⚙️ Mechanics</b></a></td>
-      <td align="center" width="16%"><a href="#-mathematical-model"><b>🧮 Math</b></a></td>
-      <td align="center" width="16%"><a href="#-invariant-security"><b>🛡 Security</b></a></td>
-      <td align="center" width="16%"><a href="#-testing-strategy"><b>🧪 Testing</b></a></td>
-    </tr>
-  </table>
-</div>
-
-<hr />
-
-## 📖 Executive Summary
-
-The **DSC Protocol** maintains a strict `$1.00` peg for the **DSC Token** through a decentralized, censorship-resistant mechanism. Unlike centralized stablecoins (USDC) or failed algorithmic models (Terra/UST), DSC relies on verifiable on-chain collateral.
-
-> **Core Mechanism:** **Over-Collateralization**
-> Users must deposit crypto-assets (`wETH` / `wBTC`) valued significantly higher than the stablecoins they mint. System solvency is enforced by a network of liquidators who profit from purging under-collateralized positions.
-
-### Key Features
-* **Exogenous Collateral:** Backed by established assets (`wETH`, `wBTC`), not protocol-native tokens.
-* **Dollar Pegged:** 1 DSC is algorithmically stabilized to roughly $1.00 USD.
-* **Algorithmically Sound:** No governance keys, no freezing functionality, pure math-based incentives.
 
 ---
 
-## 🏗 System Architecture
+## 📑 Table of Contents
 
-This diagram illustrates the **Flow of Value** through the system. We use a **Hub-and-Spoke** model where the `DSCEngine` is the central "Trustless Banker".
+- [🧠 Executive Summary](#-executive-summary)
+- [📚 Protocol Architecture](#-protocol-architecture)
+- [⚙️ The ERC-4337 Standard](#-the-erc-4337-standard)
+- [🏗️ Transaction Lifecycle](#-transaction-lifecycle)
+- [📂 Modular Structure](#-modular-structure)
+- [🧩 Key Components](#-key-components)
+- [🚀 Usage & Simulation](#-usage--simulation)
+- [🛠️ Tech Stack](#-tech-stack)
+- [⚠️ Disclaimer](#-disclaimer)
 
-### 📐 High-Level Interaction Diagram
+---
+
+## 🧠 Executive Summary
+
+This repository contains a **ground-up implementation of ERC-4337**, designed for engineers who need to understand the protocol beyond simple SDKs.
+
+**Core Engineering Goals:**
+- 📦 **Manual Packing:** Constructing `UserOperations` from raw bytes.
+- 🔐 **Cryptographic Verification:** Implementing `validateUserOp` with ECDSA recovery.
+- ⛽ **Gas Abstraction:** Building a functional **Paymaster** to sponsor transactions.
+- 🔄 **Alt-Mempool Logic:** Simulating how Bundlers handle operations before they hit the chain.
+
+> This project mirrors the exact logic used by production wallets (Argent, Safe) and bundlers (Pimlico, Stackup) using the latest **v0.7** standards.
+
+---
+
+## 📚 Protocol Architecture
+
+**Account Abstraction (AA)** decouples the object holding your tokens (Account) from the object authorized to move them (Signer).
+
+| Feature | Traditional EOA | 🛡️ Smart Account (AA) |
+| :--- | :--- | :--- |
+| **Logic** | Hardcoded (ECDSA only) | **Programmable** (Any Logic) |
+| **Recovery** | Seed Phrase (Single Point of Failure) | **Social Recovery** (Guardians) |
+| **Gas Payment** | ETH Only | **ERC-20 / Sponsored** |
+| **UX** | One Tx per Action | **Batched Transactions** |
+| **Security** | All-or-Nothing Access | **Session Keys / Scoped Access** |
+
+---
+
+## ⚙️ The ERC-4337 Standard
+
+ERC-4337 achieves AA **without a hard fork** by introducing a higher-layer pseudo-transaction object called a `UserOperation`.
+
+1.  **Alternative Mempool:** UserOps avoid the standard Ethereum mempool.
+2.  **The Bundler:** A specialized node that packages UserOps into a standard transaction.
+3.  **The EntryPoint:** A singleton contract ensuring validation rules are strictly followed to prevent DoS attacks.
+
+---
+
+## 🏗️ Transaction Lifecycle
+
+The flow below illustrates how a UserOperation travels from the client to on-chain execution.
 
 ```mermaid
 graph TD
-    %% Nodes
-    User((👤 User))
-    Liquidator((🩸 Liquidator))
-    Engine[⚙️ DSC Engine Contract]
-    Oracle{👁️ Chainlink Price Feed}
-    Collateral[🏦 WETH / WBTC Vault]
-    Token[💵 DSC Token]
+    User[👤 Client / User] -->|Sign Off-Chain| UserOp[📦 UserOperation]
+    UserOp -->|Submit| Bundler[🤖 Bundler Node]
+    Bundler -->|Batch Call| EP[🏛️ EntryPoint Contract]
+    
+    subgraph On-Chain Execution
+    EP -->|1. Validate Sig| SA[🛡️ Smart Account]
+    EP -->|2. Validate Paymaster| PM[⛽ Paymaster]
+    EP -->|3. Execute Call| SA
+    SA -->|4. Action| Target[🎯 Target Protocol]
+    end
 
-    %% User Flow
-    User ==>|1. Deposit Collateral| Engine
-    Engine ==>|2. Lock Funds| Collateral
-    Engine -.->|3. Check USD Price| Oracle
-    Engine ==>|4. Mint DSC| Token
-    Token ==>|5. Transfer DSC| User
-
-    %% Liquidator Flow
-    Liquidator -.->|6. Monitor Health Factor| Engine
-    Liquidator ==>|7. Liquidate Insolvent User| Engine
+    style User fill:#1a1a1a,stroke:#b298dc
+    style Bundler fill:#1a1a1a,stroke:#b298dc
+    style EP fill:#2d1b4e,stroke:#9d4edd,stroke-width:2px
+    style SA fill:#1a1a1a,stroke:#fff
+    style PM fill:#1a1a1a,stroke:#fff
 
 ```
 
-### 🧩 Component Breakdown
+---
 
-| Contract | Responsibility |
-| --- | --- |
-| **`DSCEngine.sol`** | The "Brain" of the system. Handles depositing collateral, minting DSC, redeeming collateral, and liquidation logic. It holds all user funds. |
-| **`DecentralizedStableCoin.sol`** | The "Currency". An ERC20 Burnable/Mintable token. It has NO logic other than standard ERC20 functions and access control (only Engine can mint/burn). |
-| **`OracleLib.sol`** | A safety wrapper around Chainlink Aggregators. Checks for stale prices and heartbeat timeouts to prevent bad data usage. |
+## 📂 Modular Structure
+
+Designed for clarity and separation of concerns via Foundry.
+
+```text
+src/
+├── account/
+│   ├── SmartAccount.sol        # Core Wallet Logic (Validate + Execute)
+│   └── SessionKeyManager.sol   # Module for Delegated Permissions
+├── paymaster/
+│   └── SimplePaymaster.sol     # Gas Sponsorship Logic
+├── core/
+│   └── EntryPoint.sol          # (Reference) Protocol Coordinator
+├── utils/
+│   └── PackedUserOpLib.sol     # Byte packing helpers
+script/
+├── Deploy.s.sol                # Deployment Orchestration
+└── SimulateBundler.s.sol       # UserOp Construction & Submission
+
+```
 
 ---
 
-## ⚙️ Core Mechanics
+## 🧩 Key Components
 
-### 1. Minting & Borrowing
+### 1. SmartAccount
 
-Users deposit specific allowed collateral (WETH/WBTC) and mint DSC against it.
+Implements `IAccount`. It defines **WHO** can move funds.
 
-* **Threshold:** 200% Collateralization Ratio.
-* **Example:** To mint $100 DSC, you must deposit at least $200 worth of ETH.
+* **Validation:** Verifies the `UserOp.signature` matches the owner.
+* **Execution:** `execute(dest, value, data)` allows interaction with any EVM contract.
 
-### 2. The Liquidation Engine
+### 2. Session Keys (`SessionKeyManager`)
 
-If the value of your collateral drops (ETH price crash), your **Health Factor** may fall below 1.
+A security module enabling temporary, restricted access.
 
-* **Trigger:** Health Factor < 1.0.
-* **Incentive:** Liquidators pay off your debt (burn DSC) and seize your collateral.
-* **Bonus:** Liquidators receive a **10% Bonus** on the collateral they seize, ensuring they are profitable even in volatile markets.
+* **Use Case:** Allow a game to sign transactions for 1 hour without asking for the user's master key every time.
 
----
+### 3. Paymaster
 
-## 🧮 Mathematical Model
+Implements `IPaymaster`. It defines **WHO PAYS** for gas.
 
-The protocol's stability is guaranteed by strict mathematical invariants enforced at the smart contract level.
-
-### 1. Health Factor ()
-
-The primary metric for solvency. If , the user is subject to immediate liquidation.
-
-* **Threshold:** 50% (User must have double the collateral value vs debt).
-* **Precision:** 1e18 standard.
-
-### 2. Liquidation Bonus ()
-
-To incentivize liquidators to pay off bad debt during market crashes, they receive a discount on the collateral they seize.
+* **Flow:** The Paymaster deposits ETH into the EntryPoint. The EntryPoint deducts gas costs from this deposit instead of the user's wallet.
 
 ---
 
-## 🛡 Invariant Security
+## 🚀 Usage & Simulation
 
-This protocol has undergone rigorous **Stateful Fuzzing** using Foundry. The following properties are mathematically proven to hold across **10,000+ random transaction sequences**.
+We use **Foundry Scripts** to act as the Bundler.
 
-| ID | Invariant Property | Status |
-| --- | --- | --- |
-| **INV_01** | **Protocol Solvency:** `Total Collateral Value ($)` > `Total DSC Supply`. The system is *always* over-collateralized. | ✅ **PASS** |
-| **INV_02** | **Getter Safety:** View functions (`getHealthFactor`, `getAccountCollateralValue`) never revert/panic. | ✅ **PASS** |
-| **INV_03** | **Ledger Integrity:** `wETH` balance in contract == Sum of all User Balances mapped in storage. | ✅ **PASS** |
-| **INV_04** | **Oracle Reliability:** Stale/Broken price feeds cause safe revert (DoS) rather than bad pricing. | ✅ **PASS** |
-
-### 🔍 Verification Scope
-
-* **Static Analysis:** Slither, Aderyn.
-* **Dynamic Analysis:** Fuzzing (Foundry), Differential Testing.
-* **Manual Review:** Access Control (CEI Pattern), Reentrancy, Oracle Manipulation.
-
----
-
-## ⚠️ Risk Analysis & Mitigation
-
-| Risk Vector | Likelihood | Impact | Mitigation Strategy |
-| --- | --- | --- | --- |
-| **Oracle Failure** | Low | Critical | Protocol strictly reverts if Chainlink heartbeat is missed or price deviates >50% instantly. |
-| **De-pegging** | Medium | High | Arbitrage opportunity created via `redeem` function forces market price back to $1.00. |
-| **Network Congestion** | High | Medium | Liquidation threshold set conservatively (200%) to allow ample time for tx inclusion before bad debt accrues. |
-| **Smart Contract Bug** | Low | Critical | Logic is kept minimal. CEI pattern used everywhere. `ReentrancyGuard` applied to all state-changing functions. |
-
----
-
-## 🧪 Testing Strategy
-
-We employ a 3-layered testing approach to ensure production readiness.
-
-### 1. Unit Tests
-
-* **Scope:** Individual functions (`deposit`, `mint`, `burn`).
-* **Coverage:** 100% Line Coverage.
-* **Goal:** Verify basic logic and happy paths.
-
-### 2. Fuzz Tests (Stateless)
-
-* **Scope:** Random inputs to all public functions.
-* **Goal:** Crash detection and edge-case handling (e.g., passing `0` amounts or massive `uint256` values).
-
-### 3. Invariant Tests (Stateful)
-
-* **Scope:** Random sequences of function calls (e.g., `deposit` -> `mint` -> `priceCrash` -> `liquidate`).
-* **Goal:** Ensure the protocol *never* goes insolvent, regardless of user actions.
+### 1. Installation
 
 ```bash
-# Run the full test suite
-forge test
-
-# Run invariant checks
-forge test --match-test invariant
+git clone [https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry.git](https://github.com/NexTechArchitect/ERC4337-Account-Abstraction-Foundry.git)
+cd ERC4337-Account-Abstraction-Foundry
+forge install
 
 ```
 
+### 2. Build & Test
+
+```bash
+forge build
+forge test
+
+```
+
+### 3. Run the "Bundler" Simulation
+
+This script deploys the environment, creates a wallet, signs a UserOp, and submits it.
+
+```bash
+make deploy
+
+```
+
+*(See `Makefile` for detailed command breakdowns)*
+
 ---
 
-<br />
+## 🛠️ Tech Stack & References
+
+* **[Foundry](https://book.getfoundry.sh/)**: Development Framework.
+* **[ERC-4337 Specs](https://eips.ethereum.org/EIPS/eip-4337)**: Official Standard.
+* **[Solady / OpenZeppelin](https://www.google.com/search?q=https://github.com/Vectorized/solady)**: Optimized Assembly & Cryptography.
+
+---
+
+## ⚠️ Disclaimer
+
+This codebase is for **educational and architectural research**.
+While it adheres to the v0.7 standard, production usage requires a formal audit and integration with a live Bundler network (e.g., Alchemy, Pimlico).
+
+---
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/rajput2107/rajput2107/master/Assets/Developer.gif" width="50" style="border-radius: 50%" />
+<b>Architected with 💜 by NEXTECHARHITECT</b>
 
-<h3>Engineered by NexTechArchitect</h3>
-<p><i>Protocol Design • DeFi Architecture • Security Engineering</i></p>
 
-<a href="https://github.com/NexTechArchitect">
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
-</a>
-&nbsp;&nbsp;
-<a href="https://www.linkedin.com/in/amit-kumar-811a11277">
-<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
-</a>
-&nbsp;&nbsp;
-<a href="https://t.me/NexTechDev">
-<img src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
-</a>
+
+
+<i>Protocol Security • EVM Architecture • Foundry</i>
+
+
+
+
+
+
+
+<a href="https://github.com/NexTechArchitect">GitHub</a> •
+<a href="https://www.google.com/search?q=https://twitter.com/NexTechArchitect">Twitter</a>
+</div>
+
+<div align="center">
+<img src="https://www.google.com/search?q=https://capsule-render.vercel.app/api%3Ftype%3Dwaving%26color%3D0:4b0082,100:9d4edd%26height%3D60%26section%3Dfooter" width="100%"/>
 </div>
 
 ```

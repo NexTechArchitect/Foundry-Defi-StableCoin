@@ -14,20 +14,7 @@
   </p>
 
   <p>
-    <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
-      <img src="https://img.shields.io/badge/Solidity-0.8.20-2e2e2e?style=for-the-badge&logo=solidity&logoColor=white" />
-    </a>
-    &nbsp;
-    <a href="https://github.com/NexTechArchitect/Foundry-Defi-StableCoin">
-      <img src="https://img.shields.io/badge/Architecture-Clean-9d4edd?style=for-the-badge&logo=architecture&logoColor=white" />
-    </a>
-    &nbsp;
-    <a href="https://chain.link/">
-      <img src="https://img.shields.io/badge/Oracle-Chainlink-2e2e2e?style=for-the-badge&logo=chainlink&logoColor=white" />
-    </a>
-  </p>
 
-  <br />
 
 </div>
 

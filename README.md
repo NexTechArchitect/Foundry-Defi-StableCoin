@@ -1,11 +1,6 @@
 
 <div align="center">
 
-  <br />
-  <br />
-
-  <img src="https://img.icons8.com/ios-filled/100/9d4edd/safe-out-of-balance.png" alt="DSC Logo" />
-
   <h1 style="font-size: 3rem; margin-bottom: 0;">Decentralized StableCoin Engine</h1>
 
   <p style="font-size: 1.1rem; color: #b298dc; max-width: 600px;">

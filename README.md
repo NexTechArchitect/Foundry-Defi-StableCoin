@@ -23,7 +23,6 @@
 - [🧮 Mathematical Model](#-mathematical-model)
 - [🛡️ Invariant Security](#-invariant-security)
 - [🚀 Usage & Testing](#-usage--testing)
-- [⚠️ Disclaimer](#-disclaimer)
 
 ---
 

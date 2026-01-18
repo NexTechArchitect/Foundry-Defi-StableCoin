@@ -83,7 +83,7 @@ contract DSCEngine is ReentrancyGuard {
         private s_collateralDeposited;
 
     mapping(address user => uint256 amount) private s_DSCMinted;
-    /// @dev If we know exactly how many tokens we have, we could make this immutable!
+ 
     address[] private s_collateralTokens;
 
     ///////////////////

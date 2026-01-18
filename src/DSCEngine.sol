@@ -78,7 +78,7 @@ contract DSCEngine is ReentrancyGuard {
     uint256 private constant FEED_PRECISION = 1e8;
 
     mapping(address collateralToken => address priceFeed) private s_priceFeeds;
-    /// @dev Amount of collateral deposited by user
+  
     mapping(address user => mapping(address collateralToken => uint256 amount))
         private s_collateralDeposited;
     /// @dev Amount of DSC minted by user

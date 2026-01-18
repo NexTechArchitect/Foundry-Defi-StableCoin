@@ -81,7 +81,7 @@ contract DSCEngine is ReentrancyGuard {
   
     mapping(address user => mapping(address collateralToken => uint256 amount))
         private s_collateralDeposited;
-    /// @dev Amount of DSC minted by user
+
     mapping(address user => uint256 amount) private s_DSCMinted;
     /// @dev If we know exactly how many tokens we have, we could make this immutable!
     address[] private s_collateralTokens;

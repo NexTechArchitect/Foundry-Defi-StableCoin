@@ -10,7 +10,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /*
 * @title Decentralized Stable Coin
-* @author: Amit
+* @author: NexTechArchitect
 * Collateral: Exogenous (ETH And BTC)
 * Minting: Algorithmics
 * Relative Stability: Soft Pegged to USD

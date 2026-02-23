@@ -1,32 +1,12 @@
 // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
 
-//Layout of the contract:
-//version
-//imports
-//errors
-//interfaces, libraries, contracts
-//Type declarations
-//State variables
-//Events
-//Modifiers
-//Functions
-
-//Layout of the functions:
-//constructor
-//receive function (if exists)
-//fallback function (if exists)
-//external
-//public
-//internal
-//private
-//view / pure functions
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {
     ERC20Burnable
 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-pragma solidity ^0.8.19;
 
 /*
 * @title Decentralized Stable Coin

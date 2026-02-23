@@ -35,7 +35,7 @@ import {OracleLib} from "./libraries/OracleLib.sol";
 
 /**
  * @title DSCEngine
- * @author Amit
+ * @author tNexTechArchitec
  * The system is designed to be as minimal as possible, and have the tokens maintain a 1 token == 1 USD peg.
  * This stablecoin has the properties:
  * - Exogenous Collateral (ETH and BTC)

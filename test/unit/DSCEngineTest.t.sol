@@ -483,7 +483,7 @@ contract DSCEngineTest is StdCheats, Test {
         assertEq(actual, expected);
     }
 
-    // 2) trying to redeem more than deposited should revert (underflow / safety)
+    //  trying to redeem more than deposited should revert (underflow / safety)
     function testRedeemMoreThanDepositedReverts() public depositedCollateral {
         vm.startPrank(user);
         // try to redeem more than deposited -> should revert

@@ -492,12 +492,10 @@ contract DSCEngineTest is StdCheats, Test {
         vm.stopPrank();
     }
 
-    // 3) mint then burn: minted accounting and balances update correctly
     function testMintThenBurnReducesDebtAndBalances()
         public
         depositedCollateral
     {
-        // mint
         vm.prank(user);
         dsce.mintDsc(amountToMint);
         assertEq(dsc.balanceOf(user), amountToMint);
